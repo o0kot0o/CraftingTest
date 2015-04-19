@@ -121,7 +121,8 @@ class Axe(GameObject):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.name = 'Axe'
-        self.image = pygame.Surface([15, 15])
+        self.image = pygame.Surface([15, 15], pygame.SRCALPHA, 32)
+        self.image.convert_alpha()
         self.image.fill((130, 82, 1), (0, 0, 5, 15))
         self.image.fill((75, 75, 75), (5, 0, 5, 7))
         self.rect = self.image.get_rect()

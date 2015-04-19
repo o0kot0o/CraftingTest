@@ -17,12 +17,21 @@ class Game():
         self.guilayer = pygame.sprite.Group()
         self.label = Label(300, 700)
 
-        self.button1 = Button(1280 / 2 - 50, 768 - 50, 48, 48, gameobject.Rock().image)
-        self.button2 = Button(1280 / 2 - 50 + 50, 768 - 50, 48, 48, gameobject.PlantFiber().image)
-        self.button3 = Button(1280 / 2 - 50 + 100, 768 - 50, 48, 48, gameobject.Stick().image)
+        self.GUI_INVENTORY_FRAME = Frame(900, 100, 50 * 5 + 8, 500)
 
-        self.guilayer.add(self.button1, self.button2, self.button3)
-        self.guilayer.add(self.label)
+        self.button1 = Button(5, 5, 48, 48, gameobject.Rock().image)
+        self.button2 = Button(5 + 50, 5, 48, 48, gameobject.PlantFiber().image)
+        self.button3 = Button(5 + 100, 5, 48, 48, gameobject.Stick().image)
+        self.button4 = Button(5 + 150, 5, 48, 48, gameobject.Rope().image)
+        self.button5 = Button(5 + 200, 5, 48, 48, gameobject.Axe().image)
+
+        self.GUI_INVENTORY_FRAME.addElement(self.button1)
+        self.GUI_INVENTORY_FRAME.addElement(self.button2)
+        self.GUI_INVENTORY_FRAME.addElement(self.button3)
+        self.GUI_INVENTORY_FRAME.addElement(self.button4)
+        self.GUI_INVENTORY_FRAME.addElement(self.button5)
+
+        self.guilayer.add(self.GUI_INVENTORY_FRAME)
 
         self.player = gameobject.Player(0, 0)
 
@@ -37,13 +46,19 @@ class Game():
 
     def input(self):
         self.keys_pressed = pygame.key.get_pressed()
+        self.mouse = pygame.mouse
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_e:
-                    self.player.printInventory()
+                    if self.GUI_INVENTORY_FRAME.Visible:
+                        self.GUI_INVENTORY_FRAME.Hide()
+                    else:
+                        self.GUI_INVENTORY_FRAME.Show()
+
+                    print(self.GUI_INVENTORY_FRAME.Visible)
                 elif event.key == pygame.K_c:
                     item = input("What item? ")
                     if item == 'axe':
@@ -65,7 +80,9 @@ class Game():
         self.button1.setText(self.player.inventory.checkItem(gameobject.Rock()))
         self.button2.setText(self.player.inventory.checkItem(gameobject.PlantFiber()))
         self.button3.setText(self.player.inventory.checkItem(gameobject.Stick()))
-        self.guilayer.update()
+        self.button4.setText(self.player.inventory.checkItem(gameobject.Rope()))
+        self.button5.setText(self.player.inventory.checkItem(gameobject.Axe()))
+        self.guilayer.update(self.mouse.get_pressed())
         self.player.update(self.gameobjects)
 
     def render(self):
