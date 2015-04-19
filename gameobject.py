@@ -52,28 +52,17 @@ class Player(GameObject):
     def craftItem(self, item):
         canCraft = True
 
-        print(item.name)
-        print('--------------------')
-        for k in item.craftList:
-            print('%s: %d' % (k.name, item.craftList[k]))
-        print('--------------------')
-
         for k in item.craftList:
             if not self.inventory.checkItem(k) > 0:
                 canCraft = False
+                print('Missing %d %s' % (item.craftList[k] - self.inventory.checkItem(k), k.name))
 
         if canCraft:
             for k in item.craftList:
-                self.inventory.removeItem(k)
+                self.inventory.removeItem(k, item.craftList[k])
+                print('Removed %d %ss' % (item.craftList[k], k.name))
             self.inventory.addItem(item)
-
-        # for k in self.inventory.inventory:
-        #     if type(item) == type(k):
-        #         if not self.inventory.inventory[k] > k.craftList[k]:
-        #             canCraft = False
-        # if canCraft:
-        #     self.inventory.addItem(item)
-
+            print('Created %s' % item.name)
 
 
 class Rock(GameObject):
@@ -109,9 +98,23 @@ class PlantFiber(GameObject):
         self.rect.y = y
 
 
+class Rope(GameObject):
+    craftList = {
+        PlantFiber(): 2
+    }
+    def __init__(self, x=0, y=0):
+        super().__init__()
+        self.name = 'Rope'
+        self.image = pygame.Surface([10, 4])
+        self.image.fill((130, 82, 1))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+
 class Axe(GameObject):
     craftList = {
-        PlantFiber(): 1,
+        Rope(): 1,
         Rock(): 1,
         Stick(): 1
     }

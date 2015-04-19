@@ -34,20 +34,15 @@ class Game():
                 if event.key == pygame.K_e:
                     self.player.printInventory()
                 elif event.key == pygame.K_c:
-                    self.player.craftItem(gameobject.Axe())
+                    self.player.craftItem(gameobject.Rope())
+
         x, y = 0, 0
-        if self.keys_pressed[pygame.K_w]:
-            y = -1
-        elif self.keys_pressed[pygame.K_s]:
-            y = 1
-        else:
-            y = 0
-        if self.keys_pressed[pygame.K_a]:
-            x = -1
-        elif self.keys_pressed[pygame.K_d]:
-            x = 1
-        else:
-            x = 0
+        if self.keys_pressed[pygame.K_w]: y = -1
+        elif self.keys_pressed[pygame.K_s]: y = 1
+        else: y = 0
+        if self.keys_pressed[pygame.K_a]: x = -1
+        elif self.keys_pressed[pygame.K_d]: x = 1
+        else: x = 0
 
         self.player.move(x, y)
 

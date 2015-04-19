@@ -20,16 +20,12 @@ class Inventory(object):
                 return self.inventory[k]
         return 0
 
-    def removeItem(self, item):
+    def removeItem(self, item, amount=1):
         hasItem = False
         for k in self.inventory:
             if type(item) == type(k):
                 hasItem = True
-                self.inventory[k] -= 1
-        if not hasItem:
-            pass
-        # if item.name in self.inventory and self.inventory[item.name] > 0:
-        #     self.inventory[item.name] -= 1
+                self.inventory[k] -= amount
 
     def printInventory(self):
         print("\n"*50)
