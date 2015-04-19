@@ -2,7 +2,7 @@ import pygame
 from random import randint
 
 import gameobject
-from gui import Label
+from gui import *
 
 
 class Game():
@@ -16,6 +16,12 @@ class Game():
 
         self.guilayer = pygame.sprite.Group()
         self.label = Label(300, 700)
+
+        self.button1 = Button(1280 / 2 - 50, 768 - 50, 48, 48, gameobject.Rock().image)
+        self.button2 = Button(1280 / 2 - 50 + 50, 768 - 50, 48, 48, gameobject.PlantFiber().image)
+        self.button3 = Button(1280 / 2 - 50 + 100, 768 - 50, 48, 48, gameobject.Stick().image)
+
+        self.guilayer.add(self.button1, self.button2, self.button3)
         self.guilayer.add(self.label)
 
         self.player = gameobject.Player(0, 0)
@@ -56,7 +62,10 @@ class Game():
         self.player.move(x, y)
 
     def update(self):
-        self.label.setText(self.player.inventory.checkItem(gameobject.Rock()))
+        self.button1.setText(self.player.inventory.checkItem(gameobject.Rock()))
+        self.button2.setText(self.player.inventory.checkItem(gameobject.PlantFiber()))
+        self.button3.setText(self.player.inventory.checkItem(gameobject.Stick()))
+        self.guilayer.update()
         self.player.update(self.gameobjects)
 
     def render(self):
