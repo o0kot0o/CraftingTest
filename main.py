@@ -2,6 +2,7 @@ import pygame
 from random import randint
 
 import gameobject
+from gui import Label
 
 
 class Game():
@@ -12,6 +13,10 @@ class Game():
         self.clock = pygame.time.Clock()
 
         self.keys_pressed = None
+
+        self.guilayer = pygame.sprite.Group()
+        self.label = Label(300, 700)
+        self.guilayer.add(self.label)
 
         self.player = gameobject.Player(0, 0)
 
@@ -34,7 +39,11 @@ class Game():
                 if event.key == pygame.K_e:
                     self.player.printInventory()
                 elif event.key == pygame.K_c:
-                    self.player.craftItem(gameobject.Rope())
+                    item = input("What item? ")
+                    if item == 'axe':
+                        self.player.craftItem(gameobject.Axe())
+                    elif item == 'rope':
+                        self.player.craftItem(gameobject.Rope())
 
         x, y = 0, 0
         if self.keys_pressed[pygame.K_w]: y = -1
@@ -47,12 +56,14 @@ class Game():
         self.player.move(x, y)
 
     def update(self):
+        self.label.setText(self.player.inventory.checkItem(gameobject.Rock()))
         self.player.update(self.gameobjects)
 
     def render(self):
         self.window.fill((0, 0, 0))
 
         self.gameobjects.draw(self.window)
+        self.guilayer.draw(self.window)
 
         pygame.display.update()
 
