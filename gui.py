@@ -7,6 +7,7 @@ class GuiElement(pygame.sprite.Sprite):
 
         self.image = pygame.Surface([0, 0])
         self.image.fill((0, 0, 0))
+        self.function = self.DoNothing
 
         self.rect = self.image.get_rect()
 
@@ -19,7 +20,11 @@ class GuiElement(pygame.sprite.Sprite):
         self.Visible = False
 
     def click(self):
-        print('CLICKED')
+        self.function(self.name)
+
+    def DoNothing(self, name):
+        pass
+
 
 
 class Label(GuiElement):
@@ -46,8 +51,12 @@ class Label(GuiElement):
 
 
 class Button(GuiElement):
-    def __init__(self, x, y, w, h, image=None):
+    def __init__(self, x, y, w, h, name='', image=None, function=None):
         super().__init__()
+
+        self.name = name
+        if not function == None:
+            self.function = function
 
         self.image = pygame.Surface([w, h])
         self.image.set_colorkey((255, 0, 255))

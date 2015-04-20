@@ -32,3 +32,8 @@ class Inventory(object):
         for item in self.inventory:
             if self.inventory[item] > 0:
                 print('%s: %d' % (item.name, self.inventory[item]))
+
+    def getCraftables(self, tool):
+        if tool == 'Rock':
+            for item in self.inventory:
+                pass

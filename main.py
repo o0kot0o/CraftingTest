@@ -12,6 +12,7 @@ class Game():
         pygame.display.set_caption('Crafting')
         self.clock = pygame.time.Clock()
 
+
         self.keys_pressed = None
 
         self.guilayer = pygame.sprite.Group()
@@ -19,25 +20,33 @@ class Game():
 
         self.GUI_INVENTORY_FRAME = Frame(900, 100, 50 * 5 + 8, 500)
 
-        self.button1 = Button(5, 5, 48, 48, gameobject.Rock().image)
-        self.button2 = Button(5 + 50, 5, 48, 48, gameobject.PlantFiber().image)
-        self.button3 = Button(5 + 100, 5, 48, 48, gameobject.Stick().image)
-        self.button4 = Button(5 + 150, 5, 48, 48, gameobject.Rope().image)
-        self.button5 = Button(5 + 200, 5, 48, 48, gameobject.Axe().image)
+        self.GUI_CRAFTABLE_FRAME = Frame(900, 100, 50 * 5 + 8, 500)
+        self.GUI_CRAFTABLE_FRAME.Hide()
 
+        self.inventory_label = Label(5, 5)
+        self.inventory_label.setText('INVENTORY')
+        self.button1 = Button(5, 28, 48, 48, 'Rock', gameobject.Rock().image, self.ShowCraftable)
+        self.button2 = Button(5 + 50, 28, 48, 48,'PlantFiber', gameobject.PlantFiber().image)
+        self.button3 = Button(5 + 100, 28, 48, 48,'Stick', gameobject.Stick().image)
+        self.button4 = Button(5 + 150, 28, 48, 48,'Rope', gameobject.Rope().image)
+        self.button5 = Button(5 + 200, 28, 48, 48,'Axe', gameobject.Axe().image)
+
+        self.GUI_INVENTORY_FRAME.addElement(self.inventory_label)
         self.GUI_INVENTORY_FRAME.addElement(self.button1)
         self.GUI_INVENTORY_FRAME.addElement(self.button2)
         self.GUI_INVENTORY_FRAME.addElement(self.button3)
         self.GUI_INVENTORY_FRAME.addElement(self.button4)
         self.GUI_INVENTORY_FRAME.addElement(self.button5)
 
-        self.guilayer.add(self.GUI_INVENTORY_FRAME)
+
+        self.guilayer.add(self.GUI_INVENTORY_FRAME, self.GUI_CRAFTABLE_FRAME)
+
 
         self.player = gameobject.Player(0, 0)
 
         self.gameobjects = pygame.sprite.Group()
         self.gameobjects.add(self.player)
-        for i in range(20):
+        for i in range(10):
             self.gameobjects.add(gameobject.Rock(randint(0, 1200), randint(0, 700)))
             self.gameobjects.add(gameobject.Stick(randint(0, 1200), randint(0, 700)))
             self.gameobjects.add(gameobject.PlantFiber(randint(0, 1200), randint(0, 700)))
@@ -77,6 +86,7 @@ class Game():
         self.player.move(x, y)
 
     def update(self):
+        self.inventory_label.setText('INVENTORY')
         self.button1.setText(self.player.inventory.checkItem(gameobject.Rock()))
         self.button2.setText(self.player.inventory.checkItem(gameobject.PlantFiber()))
         self.button3.setText(self.player.inventory.checkItem(gameobject.Stick()))
@@ -99,6 +109,14 @@ class Game():
             self.update()
             self.render()
             self.clock.tick(60)
+
+    def ShowCraftable(self, name):
+        if self.GUI_CRAFTABLE_FRAME.Visible:
+            self.GUI_CRAFTABLE_FRAME.Hide()
+        else:
+            if name == 'Rock':
+                pass
+            self.GUI_CRAFTABLE_FRAME.Show()
 
 
 if __name__ == '__main__':

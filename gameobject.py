@@ -2,7 +2,6 @@ import pygame
 
 from Inventory import *
 
-
 class GameObject(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -69,8 +68,7 @@ class Rock(GameObject):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.name = 'Rock'
-        self.image = pygame.Surface([8, 8])
-        self.image.fill((75, 75, 75))
+        self.image = pygame.image.load('gfx/rock.png')
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -80,8 +78,7 @@ class Stick(GameObject):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.name = 'Stick'
-        self.image = pygame.Surface([20, 4])
-        self.image.fill((130, 82, 1))
+        self.image = pygame.image.load('gfx/stick.png')
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -91,8 +88,7 @@ class PlantFiber(GameObject):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.name = 'Plant Fiber'
-        self.image = pygame.Surface([8, 8])
-        self.image.fill((24, 130, 24))
+        self.image = pygame.image.load('gfx/plantfiber.png')
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
