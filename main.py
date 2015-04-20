@@ -18,10 +18,21 @@ class Game():
         self.guilayer = pygame.sprite.Group()
         self.label = Label(300, 700)
 
-        self.GUI_INVENTORY_FRAME = Frame(900, 100, 50 * 5 + 8, 500)
+        self.CRAFTS_ROCK = [
+            gameobject.Rope(),
+            gameobject.Axe()
+        ]
 
         self.GUI_CRAFTABLE_FRAME = Frame(900, 100, 50 * 5 + 8, 500)
         self.GUI_CRAFTABLE_FRAME.Hide()
+        for y in range(5):
+            for x in range(5):
+                self.GUI_CRAFTABLE_FRAME.addElement(
+                    Button(x*50 + 5, y * 50 + 28, 48, 48)
+                )
+
+        self.GUI_INVENTORY_FRAME = Frame(900, 100, 50 * 5 + 8, 500)
+
 
         self.inventory_label = Label(5, 5)
         self.inventory_label.setText('INVENTORY')
@@ -66,14 +77,18 @@ class Game():
                         self.GUI_INVENTORY_FRAME.Hide()
                     else:
                         self.GUI_INVENTORY_FRAME.Show()
-
-                    print(self.GUI_INVENTORY_FRAME.Visible)
-                elif event.key == pygame.K_c:
-                    item = input("What item? ")
-                    if item == 'axe':
-                        self.player.craftItem(gameobject.Axe())
-                    elif item == 'rope':
-                        self.player.craftItem(gameobject.Rope())
+                        self.GUI_CRAFTABLE_FRAME.Hide()
+                # elif event.key == pygame.K_c:
+                #     if self.GUI_CRAFTABLE_FRAME.Visible:
+                #         self.GUI_CRAFTABLE_FRAME.Hide()
+                #     else:
+                #         self.GUI_CRAFTABLE_FRAME.Show()
+                #         self.GUI_INVENTORY_FRAME.Hide()
+                    # item = input("What item? ")
+                    # if item == 'axe':
+                    #     self.player.craftItem(gameobject.Axe())
+                    # elif item == 'rope':
+                    #     self.player.craftItem(gameobject.Rope())
 
         x, y = 0, 0
         if self.keys_pressed[pygame.K_w]: y = -1
@@ -115,8 +130,14 @@ class Game():
             self.GUI_CRAFTABLE_FRAME.Hide()
         else:
             if name == 'Rock':
-                pass
+                for i, item in enumerate(self.CRAFTS_ROCK):
+                    if self.player.canCraft(item):
+                        self.GUI_CRAFTABLE_FRAME.elements[i].setBGColor((120, 255, 120))
+                    self.GUI_CRAFTABLE_FRAME.elements[i].setImage(item.image)
+                    self.GUI_CRAFTABLE_FRAME.elements[i].setText('')
+                    self.GUI_CRAFTABLE_FRAME.elements[i].update(self.mouse.get_pressed())
             self.GUI_CRAFTABLE_FRAME.Show()
+            self.GUI_INVENTORY_FRAME.Hide()
 
 
 if __name__ == '__main__':

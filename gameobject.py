@@ -52,7 +52,7 @@ class Player(GameObject):
         canCraft = True
 
         for k in item.craftList:
-            if not self.inventory.checkItem(k) > 0:
+            if not self.inventory.checkItem(k) > item.craftList[k]:
                 canCraft = False
                 print('Missing %d %s' % (item.craftList[k] - self.inventory.checkItem(k), k.name))
 
@@ -62,6 +62,13 @@ class Player(GameObject):
                 print('Removed %d %ss' % (item.craftList[k], k.name))
             self.inventory.addItem(item)
             print('Created %s' % item.name)
+
+    def canCraft(self, item):
+        canCraft = True
+        for k in item.craftList:
+            if not self.inventory.checkItem(k) > item.craftList[k]:
+                canCraft = False
+        return canCraft
 
 
 class Rock(GameObject):
@@ -101,8 +108,7 @@ class Rope(GameObject):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.name = 'Rope'
-        self.image = pygame.Surface([10, 4])
-        self.image.fill((130, 82, 1))
+        self.image = pygame.image.load('gfx/rope.png')
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -117,10 +123,7 @@ class Axe(GameObject):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.name = 'Axe'
-        self.image = pygame.Surface([15, 15], pygame.SRCALPHA, 32)
-        self.image.convert_alpha()
-        self.image.fill((130, 82, 1), (0, 0, 5, 15))
-        self.image.fill((75, 75, 75), (5, 0, 5, 7))
+        self.image = pygame.image.load('gfx/axe.png')
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

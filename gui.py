@@ -58,9 +58,11 @@ class Button(GuiElement):
         if not function == None:
             self.function = function
 
+        self.color = (130, 130, 130)
+
         self.image = pygame.Surface([w, h])
         self.image.set_colorkey((255, 0, 255))
-        self.image.fill((130, 130, 130))
+        self.image.fill(self.color)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -71,17 +73,24 @@ class Button(GuiElement):
         self.update(None)
 
     def setImage(self, image):
-        self.image = image
+        self.button_image = image
+
+    def setBGColor(self, color):
+        self.color = color
 
     def setText(self, text):
         self.label.setText(text)
 
+    def setFunc(self, func):
+        self.function = function
+
     def update(self, mousekeys):
 
         self.image = pygame.Surface([self.rect.w, self.rect.h])
-        self.image.fill((130, 130, 130))
+        self.image.fill(self.color)
 
-        self.image.blit(self.button_image, (self.image.get_rect().centerx - self.button_image.get_rect().centerx, self.image.get_rect().centery - self.button_image.get_rect().centery - 5))
+        if self.button_image is not None:
+            self.image.blit(self.button_image, (self.image.get_rect().centerx - self.button_image.get_rect().centerx, self.image.get_rect().centery - self.button_image.get_rect().centery - 5))
         self.image.blit(self.label.image, (self.image.get_rect().centerx - self.label.image.get_rect().centerx, self.image.get_rect().centery - self.label.image.get_rect().centery + 15))
 
 
